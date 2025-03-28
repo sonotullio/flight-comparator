@@ -15,5 +15,6 @@ spec:
       containers:
         - name: flight-comparator
           image: 162582596521.dkr.ecr.eu-west-1.amazonaws.com/flight-comparator:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080

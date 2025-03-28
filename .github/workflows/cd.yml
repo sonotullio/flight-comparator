@@ -34,3 +34,8 @@ jobs:
           aws eks update-kubeconfig --name flight-cluster --region eu-west-1
           kubectl apply -f k8s/deployment.yaml
           kubectl apply -f k8s/service.yaml
+
+      - name: Update Kubernetes Deployment
+        run: |
+          kubectl set image deployment/flight-comparator flight-comparator=${{ secrets.ECR_REGISTRY }}/$${{ secrets.ECR_REPO }}:latest
+          kubectl rollout restart deployment/flight-comparator
