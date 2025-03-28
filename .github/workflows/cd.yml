@@ -37,5 +37,5 @@ jobs:
 
       - name: Update Kubernetes Deployment
         run: |
-          kubectl set image deployment/flight-comparator flight-comparator=${{ secrets.ECR_REGISTRY }}/$${{ secrets.ECR_REPO }}:latest
+          kubectl set image deployment/flight-comparator flight-comparator=${{ secrets.ECR_REGISTRY }}/${{ secrets.ECR_REPO }}:latest
           kubectl rollout restart deployment/flight-comparator
