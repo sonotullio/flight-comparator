@@ -38,21 +38,9 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        String[] permitAllRequestMatchers = PERMIT_ALL.toArray(new String[0]);
         http
-            .csrf().disable()
-            .cors()
-            .and()
-            .authorizeHttpRequests()
-            .requestMatchers(permitAllRequestMatchers).permitAll()
-            .anyRequest().authenticated()
-            .and()
-            .sessionManagement()
-            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and()
-            .authenticationProvider(authenticationProvider())
-            .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
-
+                .authorizeHttpRequests(auth -> auth.anyRequest().permitAll()) // 🔓 Permette accesso senza login
+                .csrf(csrf -> csrf.disable()); // 🔧 Disabilita CSRF solo se necessario
         return http.build();
     }
 
