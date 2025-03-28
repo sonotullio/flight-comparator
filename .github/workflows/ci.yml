@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - develop
   pull_request:
     branches:
       - main
@@ -17,14 +16,18 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Set up JDK 17
+      - name: Setup Amazon Corretto JDK 21
         uses: actions/setup-java@v3
         with:
-          java-version: '17'
-          distribution: 'temurin'
+          distribution: 'corretto'  # Usa Amazon Corretto JDK
+          java-version: '21'
 
-      - name: Build with Maven
+      - name: Cache Maven Dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-maven-
+
+      - name: Build and Test
         run: mvn clean install
-
-      - name: Run Tests
-        run: mvn test
